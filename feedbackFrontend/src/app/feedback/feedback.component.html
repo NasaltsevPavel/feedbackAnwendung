@@ -1,1 +1,54 @@
 <p>feedback works!</p>
+<div class="center-container">
+  <mat-card class="form-card">
+    <mat-card-content>
+      <mat-form-field class="full-width">
+        <mat-label>Your Role</mat-label>
+        <mat-select placeholder="Your Role" required>
+          <mat-option *ngFor="let option of roleOptions">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Receiver Role</mat-label>
+        <mat-select placeholder="Receiver Role" required>
+          <mat-option *ngFor="let option of roleOptions">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>AI Options</mat-label>
+      <mat-select placeholder="AI Options" required>
+        <mat-option *ngFor="let option of aiOptions">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </mat-card-content>
+
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="info-content">
+          <mat-icon>info</mat-icon>
+          <span>This is an informational message.</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-form-field class="full-width">
+      <mat-label>Hinweistext</mat-label>
+      <textarea  #hinweistext  matInput>
+        </textarea>
+      <mat-hint align="end">{{ hinweistext.value.length }} / 1600</mat-hint>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary">Check</button>
+    </div>
+  </mat-card>
+</div>
