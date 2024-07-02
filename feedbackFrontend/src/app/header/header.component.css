@@ -1,0 +1,24 @@
+.button-container {
+  display: flex;
+  margin-top: 16px;
+  justify-content: flex-end;
+  margin-right: 30px;
+  gap: 10px; /* Space between buttons */
+}
+
+
+.round-button {
+  background-color: grey;
+  color: white;
+  border: none;
+  border-radius: 50%; /* Fully round buttons */
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.round-button:hover {
+  background-color: darkgrey; /* Darker grey on hover */
+}

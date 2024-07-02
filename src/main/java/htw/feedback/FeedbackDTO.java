@@ -1,14 +1,14 @@
 package htw.feedback;
 
-import htw.user.UserDTO;
+import htw.user.Role;
 
 public class FeedbackDTO {
 
-    public Long id;
+    public String id;
 
-    public UserDTO from;
+    public Role from;
 
-    public UserDTO to;
+    public Role to;
 
     public String message;
 

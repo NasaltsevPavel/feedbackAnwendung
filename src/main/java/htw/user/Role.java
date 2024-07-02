@@ -4,7 +4,12 @@ public enum Role {
 
     MANAGER,
     DEVELOPER,
+    PRODUCT_OWNER,
+    SCRUM_MASTER,
 
-    HR
+    OFFICE,
+
+    COMPANY
+
 
 }

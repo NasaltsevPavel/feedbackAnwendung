@@ -1,54 +1,70 @@
-<p>feedback works!</p>
 <div class="center-container">
   <mat-card class="form-card">
     <mat-card-content>
       <mat-form-field class="full-width">
         <mat-label>Your Role</mat-label>
-        <mat-select placeholder="Your Role" required>
-          <mat-option *ngFor="let option of roleOptions">
-            {{ option }}
+        <mat-select
+          [(ngModel)]="feedback.from"
+          placeholder="Your Role" required>
+          <mat-option *ngFor="let option of roleOptions"
+                      [value]="option[0]">
+            {{ option[1] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
+      <mat-form-field *ngIf="feedback.from!= null" class="full-width">
         <mat-label>Receiver Role</mat-label>
-        <mat-select placeholder="Receiver Role" required>
-          <mat-option *ngFor="let option of roleOptions">
-            {{ option }}
+        <mat-select
+          [(ngModel)]="feedback.to"
+          placeholder="Receiver Role" required>
+          <mat-option *ngFor="let option of roleOptions"
+                      [value]="option[0]">
+            {{ option[1] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-    <mat-form-field class="full-width">
+    <mat-form-field *ngIf="feedback.to!= null" class="full-width">
       <mat-label>AI Options</mat-label>
-      <mat-select placeholder="AI Options" required>
-        <mat-option *ngFor="let option of aiOptions">
-          {{ option }}
+      <mat-select
+        [(ngModel)]="aiOption"
+        placeholder="AI Options" required>
+        <mat-option *ngFor="let option of aiOptions"
+                    [value]="option[0]">
+          {{ option[1] }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     </mat-card-content>
 
-    <mat-card class="info-card">
-      <mat-card-content>
-        <div class="info-content">
-          <mat-icon>info</mat-icon>
-          <span>This is an informational message.</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <div class="info-message" *ngIf=" aiOption === AI.CHECK">
+      <mat-icon>info</mat-icon>
+      <span>This is an CHECK informational message.</span>
+    </div>
+
+    <div class="info-message" *ngIf=" aiOption === AI.CREATE">
+      <mat-icon>info</mat-icon>
+      <span>This is an CREATE informational message.</span>
+    </div>
 
 
-    <mat-form-field class="full-width">
+    <mat-form-field *ngIf="aiOption !='' " style="margin: 16px">
       <mat-label>Hinweistext</mat-label>
-      <textarea  #hinweistext  matInput>
+      <textarea  #hinweistext
+                 [(ngModel)]="feedback.message"
+                 minlength="100"
+                 maxlength="1000"
+                 matInput >
         </textarea>
-      <mat-hint align="end">{{ hinweistext.value.length }} / 1600</mat-hint>
+      <mat-hint align="end">{{ hinweistext.value.length }} / 1000</mat-hint>
+      <mat-error *ngIf="hinweistext.value.length<100">
+        Hinweistext must be at least 100 characters long.
+      </mat-error>
     </mat-form-field>
 
     <div class="button-container">
-      <button mat-raised-button color="primary">Check</button>
+      <button *ngIf="feedback.message.length> 100"  mat-raised-button (click)="check()"  color="primary">Check</button>
     </div>
   </mat-card>
 </div>

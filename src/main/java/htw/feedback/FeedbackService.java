@@ -1,7 +1,6 @@
 package htw.feedback;
 
-import htw.FeedbackApplication;
-import org.springframework.boot.SpringApplication;
+import htw.user.Role;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,28 +25,28 @@ public class FeedbackService {
 
     private static final String PROMPT_CREATE_FEEDBACK = "";
 
+    private final FeedbackRepository feedbackRepository;
 
-    public List<FeedbackDTO> findFeedbackByUserId(String userId){
+    public FeedbackService(FeedbackRepository feedbackRepository) {
+        this.feedbackRepository = feedbackRepository;
+    }
+
+
+    public List<FeedbackDTO> findFeedbackByRole(Role role){
         return new ArrayList<>();
     }
 
-    public void deleteFeedbackByUserId(String userId){
-
+    public void deleteFeedbackId(String id){
+        feedbackRepository.deleteById(id);
     }
 
-    public static FeedbackCheck checkFeedbackText(String message) throws IOException {
+    public FeedbackCheck checkFeedbackText(FeedbackCheck feedbackCheck) throws IOException {
 
-        String APIanswer = callChatGPT(message);
+        String APIanswer = callChatGPT(feedbackCheck.text);
 
         String[] parts = APIanswer.split("\n", 2);
 
-        return new FeedbackCheck(parts[1], Boolean.parseBoolean(parts[0]), "");
-
-    }
-
-    public static void main(String[] args) throws IOException {
-System.out.println(  checkFeedbackText("Hallo Dani, letzte Woche deine Leistung bei der Arbeit hat mir gar nicht gefallen. Du bist etweder draussen am Rauchen oder mit Kollegen am Quatchen. Sag mal geht es noch? Wenn es so weiter geht, dann muss ich dich rausschmeissen!!!").text
-);
+        return new FeedbackCheck(Role.DEVELOPER,Role.HR,parts[1], Boolean.parseBoolean(parts[0]), "");
 
     }
 

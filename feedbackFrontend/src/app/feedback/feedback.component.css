@@ -14,7 +14,21 @@
   width: 100%;
 }
 
-.info-card {
+.info-message {
   background-color: yellow;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  margin-right: 16px;
+  margin-left: 16px;
+  text-align: center;
+}
+.form-card {
+  background-color: rgba(128, 128, 128, 0.5); /* Grey color with 50% transparency */
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
