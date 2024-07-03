@@ -4,7 +4,7 @@
       <mat-form-field class="full-width">
         <mat-label>Your Role</mat-label>
         <mat-select
-          [(ngModel)]="feedback.from"
+          [(ngModel)]="feedbackCheck.from"
           placeholder="Your Role" required>
           <mat-option *ngFor="let option of roleOptions"
                       [value]="option[0]">
@@ -13,10 +13,10 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="feedback.from!= null" class="full-width">
+      <mat-form-field *ngIf="feedbackCheck.from!= null" class="full-width">
         <mat-label>Receiver Role</mat-label>
         <mat-select
-          [(ngModel)]="feedback.to"
+          [(ngModel)]="feedbackCheck.to"
           placeholder="Receiver Role" required>
           <mat-option *ngFor="let option of roleOptions"
                       [value]="option[0]">
@@ -25,7 +25,7 @@
         </mat-select>
       </mat-form-field>
 
-    <mat-form-field *ngIf="feedback.to!= null" class="full-width">
+    <mat-form-field *ngIf="feedbackCheck.to!= null" class="full-width">
       <mat-label>AI Options</mat-label>
       <mat-select
         [(ngModel)]="aiOption"
@@ -52,7 +52,7 @@
     <mat-form-field *ngIf="aiOption !='' " style="margin: 16px">
       <mat-label>Hinweistext</mat-label>
       <textarea  #hinweistext
-                 [(ngModel)]="feedback.message"
+                 [(ngModel)]="feedbackCheck.text"
                  minlength="100"
                  maxlength="1000"
                  matInput >
@@ -64,7 +64,8 @@
     </mat-form-field>
 
     <div class="button-container">
-      <button *ngIf="feedback.message.length> 100"  mat-raised-button (click)="check()"  color="primary">Check</button>
+      <button *ngIf="feedbackCheck.text.length> 100 && !check"  mat-raised-button (click)="checkText(feedbackCheck)"  color="primary">Check</button>
+      <button *ngIf="check" mat-raised-button color="primary">Send</button>
     </div>
   </mat-card>
 </div>

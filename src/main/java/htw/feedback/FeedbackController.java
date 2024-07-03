@@ -16,6 +16,7 @@ public class FeedbackController {
     }
 
     @PostMapping("check")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<FeedbackCheck> checkFeedback(@RequestBody FeedbackCheck feedbackCheck) throws IOException {
         return ResponseEntity.ok(feedbackService.checkFeedbackText(feedbackCheck));
     }

@@ -32,7 +32,7 @@ public class FeedbackService {
     }
 
 
-    public List<FeedbackDTO> findFeedbackByRole(Role role){
+    public List<FeedbackEntity> findFeedbackByRole(Role role){
         return new ArrayList<>();
     }
 
@@ -46,11 +46,12 @@ public class FeedbackService {
 
         String[] parts = APIanswer.split("\n", 2);
 
-        return new FeedbackCheck(Role.DEVELOPER,Role.HR,parts[1], Boolean.parseBoolean(parts[0]), "");
+        return new FeedbackCheck(feedbackCheck.from,feedbackCheck.to,parts[1], Boolean.parseBoolean(parts[0]), "");
 
     }
 
     private static String callChatGPT(String prompt) throws IOException {
+        System.out.println(prompt);
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost post = new HttpPost(API_URL);
             post.setHeader("Content-Type", "application/json");
@@ -85,9 +86,9 @@ public class FeedbackService {
     }
 
 
-    public FeedbackDTO createFeedback(String userId1, String userId2, String message){
+    public FeedbackEntity createFeedback(FeedbackCheck feedbackCheck){
 
-        return new FeedbackDTO();
+        return new FeedbackEntity();
     }
 
 }

@@ -9,8 +9,10 @@ import {AI} from "../model/AI.enum";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
-import {Feedback} from "../model/Feedback";
 import {FormsModule} from "@angular/forms";
+import {FeedbackCheck} from "../model/FeedbackCheck";
+import {Feedback} from "../model/Feedback";
+import {FeedbackService} from "../service/feedback.service";
 
 @Component({
   selector: 'app-feedback',
@@ -35,28 +37,43 @@ import {FormsModule} from "@angular/forms";
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.css'
 })
-export class FeedbackComponent implements OnInit{
+export class FeedbackComponent implements OnInit {
 
-  roleOptions= Role.getRoleOptions();
+  roleOptions = Role.getRoleOptions();
   aiOptions = AI.getAIOptions();
   aiOption: string = '';
+  check: boolean = false;
+
+  feedbackCheck: FeedbackCheck = new FeedbackCheck();
 
   feedback: Feedback = new Feedback();
 
+  constructor(
+    private feedbackService: FeedbackService
+  ) {
+  }
+
   ngOnInit() {
-    this.feedback.message = "";
 
   }
 
-  check() {
-    console.log(this.feedback);
+  checkText(feedback: FeedbackCheck) {
+    this.feedbackService.checkFeedback(feedback).subscribe(
+      {
+        next: (data: FeedbackCheck) => {
+          this.feedbackCheck.text = data.text;
+          console.log(data)
+          this.check = true;
+        }
+      }
+    )
   }
 
-  checkFeedbackByAI(){
+  checkFeedbackByAI() {
 
   }
 
-  createFeedbackByAI(){
+  createFeedbackByAI() {
 
   }
 

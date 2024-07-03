@@ -8,9 +8,9 @@ export namespace AI {
   export function toString(role: AI): string {
     switch (role) {
       case AI.CHECK:
-        return 'Option 1';
+        return 'Check';
       case AI.CREATE:
-        return 'Option 2';
+        return 'Create';
     }
   }
 
