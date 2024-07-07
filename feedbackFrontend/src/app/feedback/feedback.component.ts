@@ -13,6 +13,11 @@ import {FormsModule} from "@angular/forms";
 import {FeedbackCheck} from "../model/FeedbackCheck";
 import {Feedback} from "../model/Feedback";
 import {FeedbackService} from "../service/feedback.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {FeedbackData} from "../model/FeedbackData";
+import {FeedbackDialogComponent} from "../feedback-dialog/feedback-dialog.component";
 
 @Component({
   selector: 'app-feedback',
@@ -32,7 +37,8 @@ import {FeedbackService} from "../service/feedback.service";
     MatInput,
     FormsModule,
     NgIf,
-    MatError
+    MatError,
+    MatProgressSpinner
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.css'
@@ -42,31 +48,70 @@ export class FeedbackComponent implements OnInit {
   roleOptions = Role.getRoleOptions();
   aiOptions = AI.getAIOptions();
   aiOption: string = '';
-  check: boolean = false;
+  check!: boolean;
+  isLoading: boolean = false;
 
   feedbackCheck: FeedbackCheck = new FeedbackCheck();
 
   feedback: Feedback = new Feedback();
 
+  feedbackData: FeedbackData = new FeedbackData();
+
   constructor(
-    private feedbackService: FeedbackService
+    private feedbackService: FeedbackService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
   }
 
   ngOnInit() {
+    this.check = false;
 
   }
 
   checkText(feedback: FeedbackCheck) {
-    this.feedbackService.checkFeedback(feedback).subscribe(
-      {
+    this.isLoading = true;
+      this.feedbackService.checkFeedback(feedback).subscribe({
         next: (data: FeedbackCheck) => {
           this.feedbackCheck.text = data.text;
-          console.log(data)
           this.check = true;
+          this.showSnackBar('Feedback checked successfully!');
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.showSnackBar('Failed to check feedback: ' + err.message);
         }
+      });
+  }
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+    });
+  }
+  createFeedback(feedback: FeedbackCheck){
+    const dialogRef = this.dialog.open(FeedbackDialogComponent, {
+      width: '250px',
+      data: this.feedbackData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        console.log(result)
+        this.feedback.text =  this.feedbackCheck.text;
+        this.feedback.anonym = result.anonym;
+        this.feedback.meeting = result.meeting;
+        this.feedback.sender = this.feedbackCheck.from;
+        this.feedback.receiver = this.feedbackCheck.to;
+        this.feedback.active = true;
+        console.log('The dialog was closed with the following data:', this.feedback);
+
       }
-    )
+    });
+
   }
 
   checkFeedbackByAI() {

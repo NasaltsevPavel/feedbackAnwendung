@@ -55,7 +55,9 @@
                  [(ngModel)]="feedbackCheck.text"
                  minlength="100"
                  maxlength="1000"
-                 matInput >
+                 matInput
+                 rows="10"
+                 style="width: 100%;">
         </textarea>
       <mat-hint align="end">{{ hinweistext.value.length }} / 1000</mat-hint>
       <mat-error *ngIf="hinweistext.value.length<100">
@@ -65,7 +67,12 @@
 
     <div class="button-container">
       <button *ngIf="feedbackCheck.text.length> 100 && !check"  mat-raised-button (click)="checkText(feedbackCheck)"  color="primary">Check</button>
-      <button *ngIf="check" mat-raised-button color="primary">Send</button>
+      <button *ngIf="check" mat-raised-button (click)="createFeedback(feedbackCheck)" color="primary">Send</button>
     </div>
   </mat-card>
+</div>
+<div *ngIf="isLoading" class="overlay">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

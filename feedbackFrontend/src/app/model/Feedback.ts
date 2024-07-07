@@ -1,6 +1,10 @@
+import {Role} from "./Role.enum";
+
 export class Feedback {
-  from!: string;
-  to!: string;
-  message!: string;
+  sender!: Role;
+  receiver!: Role;
+  text!: string;
   meeting!: boolean;
+  anonym!: boolean;
+  active!: boolean;
 }
