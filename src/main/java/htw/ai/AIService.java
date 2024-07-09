@@ -21,7 +21,6 @@ public class AIService {
 
 
     //private static final String API_KEY = System.getenv("API_KEY");
-    private static final String API_KEY = "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";
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     private static final String PROMPT_CHECK_FEEDBACK = "Unten findest du einen Feedbacktext. " +
