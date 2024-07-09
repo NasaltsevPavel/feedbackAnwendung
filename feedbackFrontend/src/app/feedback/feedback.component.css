@@ -1,27 +1,40 @@
 .center-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  padding-top: 8vh;
 }
 
+
 .form-card, .info-card {
-  width: 400px;
+  width: 410px;
 }
 
 .full-width {
   width: 100%;
 }
-
+.info-text {
+  flex-grow: 1;
+  text-align: left;
+}
 .info-message {
-  background-color: yellow;
+  background-color: rgba(232, 190, 21, 0.8);
   padding: 16px;
   border-radius: 4px;
   margin-bottom: 4px;
   margin-right: 16px;
   margin-left: 16px;
   text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+
+.info-icon {
+  flex-shrink: 0;
+  margin-right: 8px;
 }
 .form-card {
   background-color: rgba(255, 255, 255, 0.15);

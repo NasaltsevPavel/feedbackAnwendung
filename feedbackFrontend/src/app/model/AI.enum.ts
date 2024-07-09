@@ -1,6 +1,6 @@
 export enum AI {
-  CHECK = 'Option 1',
-  CREATE = 'Option 2'
+  CHECK = 'Überprüfen',
+  CREATE = 'Erstellen'
 }
 
 export namespace AI {
@@ -8,9 +8,9 @@ export namespace AI {
   export function toString(role: AI): string {
     switch (role) {
       case AI.CHECK:
-        return 'Check';
+        return 'Überprüfen';
       case AI.CREATE:
-        return 'Create';
+        return 'Erstellen';
     }
   }
 

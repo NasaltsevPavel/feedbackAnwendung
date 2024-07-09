@@ -4,28 +4,28 @@
       <mat-form-field class="full-width">
         <mat-label>Your Role</mat-label>
         <mat-select
-          [(ngModel)]="feedbackCheck.from"
+          [(ngModel)]="feedback.sender"
           placeholder="Your Role" required>
-          <mat-option *ngFor="let option of roleOptions"
+          <mat-option *ngFor="let option of roleOptionsFrom"
                       [value]="option[0]">
             {{ option[1] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="feedbackCheck.from!= null" class="full-width">
+      <mat-form-field *ngIf="feedback.sender!= null" class="full-width">
         <mat-label>Receiver Role</mat-label>
         <mat-select
-          [(ngModel)]="feedbackCheck.to"
+          [(ngModel)]="feedback.receiver"
           placeholder="Receiver Role" required>
-          <mat-option *ngFor="let option of roleOptions"
+          <mat-option *ngFor="let option of roleOptionsTo"
                       [value]="option[0]">
             {{ option[1] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-    <mat-form-field *ngIf="feedbackCheck.to!= null" class="full-width">
+    <mat-form-field *ngIf="feedback.receiver!= null" class="full-width">
       <mat-label>AI Options</mat-label>
       <mat-select
         [(ngModel)]="aiOption"
@@ -38,26 +38,35 @@
     </mat-form-field>
     </mat-card-content>
 
-    <div class="info-message" *ngIf=" aiOption === AI.CHECK">
-      <mat-icon>info</mat-icon>
-      <span>This is an CHECK informational message.</span>
+    <div class="info-message" *ngIf=" aiOption === AI.CHECK && !check">
+      <div style="margin-right: 10px">  <mat-icon>info</mat-icon></div>
+      <span class="info-text"> Schreiben Sie das Feedback und klicken Sie dann auf 'Überprüfen'. Die KI überprüft den Text und verbessert ihn gegebenenfalls.</span>
     </div>
 
     <div class="info-message" *ngIf=" aiOption === AI.CREATE">
-      <mat-icon>info</mat-icon>
-      <span>This is an CREATE informational message.</span>
+      <div style="margin-right: 10px">  <mat-icon>info</mat-icon></div>
+      <span class="info-text">This is an CREATE informational message.</span>
+    </div>
+
+    <div class="info-message" *ngIf=" aiInteraction.aiGenerated && check">
+      <div style="margin-right: 10px">  <mat-icon>info</mat-icon></div>
+      <span class="info-text">>Die KI hat deinen Feedbacktext angepasst. Lies ihn noch einmal durch und korrigiere ihn gegebenenfalls. </span>
+    </div>
+
+    <div class="info-message" *ngIf="!aiInteraction.aiGenerated && check">
+      <div style="margin-right: 10px">  <mat-icon>info</mat-icon></div>
+      <span class="info-text">Die KI hat deinen Feedbacktext geprüft und keine Änderungen vorgenommen.  </span>
     </div>
 
 
     <mat-form-field *ngIf="aiOption !='' " style="margin: 16px">
-      <mat-label>Hinweistext</mat-label>
+      <mat-label>Feedbacktext</mat-label>
       <textarea  #hinweistext
-                 [(ngModel)]="feedbackCheck.text"
+                 [(ngModel)]="aiInteraction.feedback"
                  minlength="100"
                  maxlength="1000"
                  matInput
-                 rows="10"
-                 style="width: 100%;">
+                 rows="6">
         </textarea>
       <mat-hint align="end">{{ hinweistext.value.length }} / 1000</mat-hint>
       <mat-error *ngIf="hinweistext.value.length<100">
@@ -66,8 +75,8 @@
     </mat-form-field>
 
     <div class="button-container">
-      <button *ngIf="feedbackCheck.text.length> 100 && !check"  mat-raised-button (click)="checkText(feedbackCheck)"  color="primary">Check</button>
-      <button *ngIf="check" mat-raised-button (click)="createFeedback(feedbackCheck)" color="primary">Send</button>
+      <button *ngIf="aiInteraction.feedback.length> 100 && !check"  mat-raised-button (click)="checkText(aiInteraction)"  color="primary">Check</button>
+      <button *ngIf="check" mat-raised-button (click)="createFeedback(aiInteraction)" color="primary">Send</button>
     </div>
   </mat-card>
 </div>

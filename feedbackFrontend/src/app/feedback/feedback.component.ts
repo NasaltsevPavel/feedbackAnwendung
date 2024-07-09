@@ -10,7 +10,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
-import {FeedbackCheck} from "../model/FeedbackCheck";
+import {AiInteraction} from "../model/AiInteraction";
 import {Feedback} from "../model/Feedback";
 import {FeedbackService} from "../service/feedback.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
@@ -45,13 +45,14 @@ import {FeedbackDialogComponent} from "../feedback-dialog/feedback-dialog.compon
 })
 export class FeedbackComponent implements OnInit {
 
-  roleOptions = Role.getRoleOptions();
+  roleOptionsFrom = Role.getRoleOptionsFrom();
+  roleOptionsTo = Role.getRoleOptionsTo();
   aiOptions = AI.getAIOptions();
   aiOption: string = '';
   check!: boolean;
   isLoading: boolean = false;
 
-  feedbackCheck: FeedbackCheck = new FeedbackCheck();
+  aiInteraction: AiInteraction = new AiInteraction();
 
   feedback: Feedback = new Feedback();
 
@@ -69,11 +70,12 @@ export class FeedbackComponent implements OnInit {
 
   }
 
-  checkText(feedback: FeedbackCheck) {
+  checkText(feedback: AiInteraction) {
     this.isLoading = true;
       this.feedbackService.checkFeedback(feedback).subscribe({
-        next: (data: FeedbackCheck) => {
-          this.feedbackCheck.text = data.text;
+        next: (data: AiInteraction) => {
+          this.aiInteraction.feedback = data.feedback;
+          this.aiInteraction.aiGenerated = data.aiGenerated;
           this.check = true;
           this.showSnackBar('Feedback checked successfully!');
         },
@@ -91,34 +93,30 @@ export class FeedbackComponent implements OnInit {
       duration: 4000,
     });
   }
-  createFeedback(feedback: FeedbackCheck){
+  createFeedback(aiInteraction: AiInteraction){
     const dialogRef = this.dialog.open(FeedbackDialogComponent, {
       width: '250px',
       data: this.feedbackData
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
       if (result) {
-        console.log(result)
-        this.feedback.text =  this.feedbackCheck.text;
+        this.feedback.text = aiInteraction.feedback;
         this.feedback.anonym = result.anonym;
         this.feedback.meeting = result.meeting;
-        this.feedback.sender = this.feedbackCheck.from;
-        this.feedback.receiver = this.feedbackCheck.to;
         this.feedback.active = true;
-        console.log('The dialog was closed with the following data:', this.feedback);
+        this.feedbackService.createFeedback(this.feedback).subscribe({
+          next: () => {
+            this.showSnackBar('Feedback created successfully!');
+          },
+          error: (err) => {
+            this.showSnackBar('Failed to create feedback: ' + err.message);
+          }
+        })
+        console.log('FEEDBACK:', this.feedback);
 
       }
     });
-
-  }
-
-  checkFeedbackByAI() {
-
-  }
-
-  createFeedbackByAI() {
 
   }
 

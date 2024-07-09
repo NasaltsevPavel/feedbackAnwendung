@@ -1,6 +1,7 @@
 package htw.feedback;
 
-import htw.user.Role;
+import htw.feedback.model.FeedbackDTO;
+import htw.feedback.model.FeedbackEntity;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +13,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,30 +25,28 @@ public class FeedbackService {
 
     private static final String PROMPT_CREATE_FEEDBACK = "";
 
+    private final FeedbackMapper feedbackMapper;
+
     private final FeedbackRepository feedbackRepository;
 
-    public FeedbackService(FeedbackRepository feedbackRepository) {
+    public FeedbackService(FeedbackMapper feedbackMapper, FeedbackRepository feedbackRepository) {
+        this.feedbackMapper = feedbackMapper;
         this.feedbackRepository = feedbackRepository;
     }
 
 
-    public List<FeedbackEntity> findFeedbackByRole(Role role){
-        return new ArrayList<>();
+    public List<FeedbackEntity> getAllFeedback(){
+        return feedbackRepository.findAll();
     }
 
     public void deleteFeedbackId(String id){
         feedbackRepository.deleteById(id);
     }
 
-    public FeedbackCheck checkFeedbackText(FeedbackCheck feedbackCheck) throws IOException {
-
-        String APIanswer = callChatGPT(feedbackCheck.text);
-
-        String[] parts = APIanswer.split("\n", 2);
-
-        return new FeedbackCheck(feedbackCheck.from,feedbackCheck.to,parts[1], Boolean.parseBoolean(parts[0]), "");
-
+    public FeedbackEntity create(FeedbackDTO feedbackDTO){
+        return feedbackRepository.save(feedbackMapper.dtoToEntity(feedbackDTO));
     }
+
 
     private static String callChatGPT(String prompt) throws IOException {
         System.out.println(prompt);
@@ -83,12 +81,6 @@ public class FeedbackService {
                 return "Keine Antwort erhalten oder die Antwort war nicht im erwarteten Format.";
             });
         }
-    }
-
-
-    public FeedbackEntity createFeedback(FeedbackCheck feedbackCheck){
-
-        return new FeedbackEntity();
     }
 
 }

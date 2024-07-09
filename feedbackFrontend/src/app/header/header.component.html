@@ -1,5 +1,13 @@
-<div class="button-container">
-
-  <button class="round-button" [routerLink]="['/main-page']"><mat-icon class="icon">home</mat-icon></button>
-  <button class="round-button" [routerLink]="['/feedback-list']"><mat-icon class="icon">list</mat-icon></button>
+<div class="container">
+  <div class="left-container">
+    <img *ngIf="!isMainPage()" src="../../assets/feedback.png" alt="Feedback Application Image" class="center-image">
+    <div class="text-below-image">
+      <span>Anwendung</span>
+      <span>Feedback</span>
+    </div>
+  </div>
+  <div class="button-container">
+    <button class="round-button" [routerLink]="['/main-page']"><mat-icon class="icon">home</mat-icon></button>
+    <button class="round-button" [routerLink]="['/feedback-list']"><mat-icon class="icon">list</mat-icon></button>
+  </div>
 </div>

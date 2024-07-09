@@ -1,1 +1,11 @@
-<p>feedback-list works!</p>
+<!-- feedback-list.component.html -->
+<div *ngIf="feedbacks.length > 0; else noFeedback">
+  <ul>
+    <li *ngFor="let feedback of feedbacks">
+      {{ feedback.text }}
+    </li>
+  </ul>
+</div>
+<ng-template #noFeedback>
+  <p>No feedback available.</p>
+</ng-template>

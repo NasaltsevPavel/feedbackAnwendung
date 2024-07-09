@@ -1,4 +1,4 @@
-package htw.user;
+package htw.feedback.enums;
 
 public enum Role {
 
@@ -6,9 +6,7 @@ public enum Role {
     DEVELOPER,
     PRODUCT_OWNER,
     SCRUM_MASTER,
-
     OFFICE,
-
     COMPANY
 
 

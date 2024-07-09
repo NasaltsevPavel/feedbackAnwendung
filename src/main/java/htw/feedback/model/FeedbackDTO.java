@@ -1,6 +1,6 @@
-package htw.feedback;
+package htw.feedback.model;
 
-import htw.user.Role;
+import htw.feedback.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 

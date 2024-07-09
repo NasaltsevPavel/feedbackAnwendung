@@ -1,17 +1,34 @@
-.button-container {
+.container {
   display: flex;
-  margin-top: 16px;
-  justify-content: flex-end;
-  margin-right: 30px;
-  gap: 10px; /* Space between buttons */
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 30px;
+}
+.left-container {
+  display: flex;
+  align-items: center;
+}
+.text-below-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.center-image {
+  width: 90px;
+  height: auto;
+  margin-right: 10px;
 }
 
+.button-container {
+  display: flex;
+  gap: 10px;
+}
 
 .round-button {
   background-color: grey;
   color: white;
   border: none;
-  border-radius: 50%; /* Fully round buttons */
+  border-radius: 50%;
   padding: 12px 14px;
   cursor: pointer;
   text-align: center;
@@ -20,5 +37,5 @@
 }
 
 .round-button:hover {
-  background-color: darkgrey; /* Darker grey on hover */
+  background-color: darkgrey;
 }
