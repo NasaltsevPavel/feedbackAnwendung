@@ -13,9 +13,22 @@ export class FeedbackService{
   constructor(private http: HttpClient) {
   }
 
-  public checkFeedback(feedback: AiInteraction): Observable<AiInteraction>{
+  public aiCheckFeedback(feedback: AiInteraction): Observable<AiInteraction>{
     return this.http.post<AiInteraction>(this.pathPrefix+"ai/check", feedback);
 
+  }
+
+  public aiCreateFeedback(feedback: AiInteraction): Observable<AiInteraction>{
+    return this.http.post<AiInteraction>(this.pathPrefix+"ai/create", feedback);
+
+  }
+
+  public deleteFeedback(id: String){
+    return this.http.delete(this.pathPrefix+"feedback/"+id);
+  }
+
+  public changeStatus(id: String): Observable<Feedback>{
+    return this.http.post<Feedback>(this.pathPrefix+"feedback/"+ id, null);
   }
 
   public createFeedback(feedback: Feedback): Observable<Feedback>{
@@ -25,5 +38,9 @@ export class FeedbackService{
 
   public getAllFeedback(): Observable<Feedback[]> {
     return this.http.get<Feedback[]>(this.pathPrefix + 'feedback/feedbacks');
+  }
+
+  public getByReceiver(role: String): Observable<Feedback[]> {
+    return this.http.get<Feedback[]>(this.pathPrefix + 'feedback/feedbacks/'+role);
   }
 }

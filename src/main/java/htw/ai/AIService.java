@@ -1,6 +1,5 @@
 package htw.ai;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htw.ai.model.AiInteraction;
@@ -13,28 +12,36 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @Service
 public class AIService {
 
+    private static final String API_KEY = System.getenv("API_KEY");
 
-    //private static final String API_KEY = System.getenv("API_KEY");
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     private static final String PROMPT_CHECK_FEEDBACK = "Unten findest du einen Feedbacktext. " +
-            "Du musst überprüfen, ob der Text konstruktiv geschrieben ist und keine Beleidigungen enthält. Falls dies nicht der Fall ist, schreibe 'false' gefolgt von dem umgeschriebenen, konstruktiven Text. Falls der eingegebene Text passt, schreibe einfach 'true'." +
-            "Ein konstruktiver Text sollte:" + "1. Spezifisch und klar sein." +
-            "2. Verbesserungsvorschläge enthalten." +
-            "3. Respektvoll und höflich formuliert sein." +
-            "Beachte: Deine Antwort sollte nur 'true' oder 'false' gefolgt vom umgeschriebenen Text enthalten, ohne zusätzliche Texte oder Erklärungen." +
+            "Du musst überprüfen, ob der Text konstruktiv geschrieben ist und keine Beleidigungen enthält. Falls dies nicht der Fall ist, schreibe 'false' gefolgt von dem umgeschriebenen, konstruktiven Text, bitte verwende die bitte professionelle Schreibweise. Falls der eingegebene Text passt, schreibe einfach 'true'." +
             "Hier ist das Feedback:";
 
-    private static final String PROMPT_CREATE_FEEDBACK = "";
+    private static final String PROMPT_CREATE_FEEDBACK = "Unten findest du Keywords. " +
+            "Erstelle aus diesen Wörtern ein konstruktives Feedback. " +
+            "Hier sind die Keywords:";
+
+
+    public AiInteraction aiCreate(AiInteraction aiInteraction) throws IOException {
+        String APIanswer = callChatGPT(aiInteraction.feedback, PROMPT_CREATE_FEEDBACK);
+
+        aiInteraction.aiGenerated = true;
+        aiInteraction.feedback = APIanswer;
+
+        return  aiInteraction;
+    }
+
 
     public AiInteraction aiCheck(AiInteraction aiInteraction) throws IOException {
-        String APIanswer = callChatGPT(aiInteraction.feedback);
+        String APIanswer = callChatGPT(aiInteraction.feedback, PROMPT_CHECK_FEEDBACK);
         if (APIanswer.length() == 4) {
             aiInteraction.aiGenerated = false;
         } else {
@@ -45,7 +52,7 @@ public class AIService {
         return aiInteraction;
     }
 
-    private static String callChatGPT(String prompt) throws IOException {
+    private static String callChatGPT(String prompt, String content) throws IOException {
 
         String userPrompt = prompt.replace("\n", "");
 
@@ -55,8 +62,8 @@ public class AIService {
             post.setHeader("Content-Type", "application/json");
             post.setHeader("Authorization", "Bearer " + API_KEY);
 
-            String jsonBody = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": " +
-                    "\" " + PROMPT_CHECK_FEEDBACK + "\"}, {\"role\": \"user\", \"content\": \"" + userPrompt + "\"}]}";
+            String jsonBody = "{\"model\": \"gpt-4o\", \"messages\": [{\"role\": \"system\", \"content\": " +
+                    "\" " + content + "\"}, {\"role\": \"user\", \"content\": \"" + userPrompt + "\"}]}";
             post.setEntity(new StringEntity(jsonBody, StandardCharsets.UTF_8));
 
             return client.execute(post, httpResponse -> {
@@ -80,19 +87,6 @@ public class AIService {
                 }
                 return "Keine Antwort erhalten oder die Antwort war nicht im erwarteten Format.";
             });
-        }
-    }
-
-    public static String convertTextToJson(String text) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> messageMap = new HashMap<>();
-        messageMap.put("message", text.replace("\n", ""));
-
-        try {
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(messageMap);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }

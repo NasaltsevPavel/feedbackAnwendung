@@ -3,8 +3,10 @@ export enum Role {
   DEVELOPER = 'DEVELOPER',
   PRODUCT_OWNER = 'PRODUCT_OWNER',
   SCRUM_MASTER = 'SCRUM_MASTER',
+  WORKING_STUDENT = 'WORKING_STUDENT',
+  TRAINEE = 'TRAINEE',
   OFFICE = 'OFFICE',
-  COMPANY = 'COMPANY'
+  COMPANY = 'COMPANY',
 }
 
 export namespace Role {
@@ -14,15 +16,19 @@ export namespace Role {
       case Role.MANAGER:
         return 'Manager';
       case Role.DEVELOPER:
-        return 'Developer';
+        return 'Software-Entwickler';
       case Role.PRODUCT_OWNER:
-        return 'PRODUCT_OWNER';
+        return 'Product Owner';
       case Role.SCRUM_MASTER:
-        return 'SCRUM_MASTER';
-      case Role.COMPANY:
-        return 'COMPANY';
+        return 'Scrum Master';
+      case Role.WORKING_STUDENT:
+        return 'Werkstudent';
+      case Role.TRAINEE:
+        return 'Praktikant';
       case Role.OFFICE:
-        return 'OFFICE';
+        return 'Büro';
+      case Role.COMPANY:
+        return 'Unternehmen';
 
     }
   }
@@ -30,12 +36,15 @@ export namespace Role {
   export function getRoleOptionsFrom() {
     return [[Role.MANAGER, toString(Role.MANAGER)],
       [Role.DEVELOPER, toString(Role.DEVELOPER)], [Role.PRODUCT_OWNER, toString(Role.PRODUCT_OWNER)],
-      [Role.SCRUM_MASTER, toString(Role.SCRUM_MASTER)]];
+      [Role.SCRUM_MASTER, toString(Role.SCRUM_MASTER)],
+      [Role.WORKING_STUDENT, toString(Role.WORKING_STUDENT)],
+      [Role.TRAINEE, toString(Role.TRAINEE)]];
   }
 
   export function getRoleOptionsTo() {
     return [[Role.MANAGER, toString(Role.MANAGER)],
       [Role.DEVELOPER, toString(Role.DEVELOPER)], [Role.PRODUCT_OWNER, toString(Role.PRODUCT_OWNER)],
-      [Role.SCRUM_MASTER, toString(Role.SCRUM_MASTER)],  [Role.COMPANY, toString(Role.COMPANY)], [Role.OFFICE, toString(Role.OFFICE)]];
+      [Role.SCRUM_MASTER, toString(Role.SCRUM_MASTER)], [Role.WORKING_STUDENT, toString(Role.WORKING_STUDENT)],
+      [Role.TRAINEE, toString(Role.TRAINEE)], [Role.OFFICE, toString(Role.OFFICE)], [Role.COMPANY, toString(Role.COMPANY)]];
   }
 }

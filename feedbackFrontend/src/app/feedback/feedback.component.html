@@ -59,7 +59,7 @@
     </div>
 
 
-    <mat-form-field *ngIf="aiOption !='' " style="margin: 16px">
+    <mat-form-field *ngIf="aiOption === AI.CHECK " style="margin: 16px">
       <mat-label>Feedbacktext</mat-label>
       <textarea  #hinweistext
                  [(ngModel)]="aiInteraction.feedback"
@@ -74,9 +74,25 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field *ngIf="aiOption === AI.CREATE " style="margin: 16px">
+      <mat-label>Keywords</mat-label>
+      <textarea  #hinweistext
+                 [(ngModel)]="aiInteraction.feedback"
+                 maxlength="1000"
+                 minlength="40"
+                 matInput
+                 rows="6">
+        </textarea>
+      <mat-hint align="end">{{ hinweistext.value.length }} / 1000</mat-hint>
+      <mat-error *ngIf="hinweistext.value.length<50">
+        Hinweistext must be at least 50 characters long.
+      </mat-error>
+    </mat-form-field>
+
     <div class="button-container">
-      <button *ngIf="aiInteraction.feedback.length> 100 && !check"  mat-raised-button (click)="checkText(aiInteraction)"  color="primary">Check</button>
-      <button *ngIf="check" mat-raised-button (click)="createFeedback(aiInteraction)" color="primary">Send</button>
+      <button *ngIf="aiInteraction.feedback.length> 100 && !check && aiOption != AI.CREATE"  mat-raised-button (click)="checkText(aiInteraction)"  color="primary">Check</button>
+      <button *ngIf="aiInteraction.feedback.length> 50 && !create && aiOption != AI.CHECK"  mat-raised-button (click)="createText(aiInteraction)"  color="primary">Create</button>
+      <button *ngIf="check || create" mat-raised-button (click)="createFeedback(aiInteraction)" color="primary">Send</button>
     </div>
   </mat-card>
 </div>

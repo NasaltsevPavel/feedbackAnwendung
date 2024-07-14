@@ -24,4 +24,9 @@ public class AIController {
         return ResponseEntity.ok(aiService.aiCheck(aiInteraction));
     }
 
+    @PostMapping("create")
+    public ResponseEntity<AiInteraction> createFeedback(@RequestBody AiInteraction aiInteraction) throws IOException {
+        return ResponseEntity.ok(aiService.aiCreate(aiInteraction));
+    }
+
 }

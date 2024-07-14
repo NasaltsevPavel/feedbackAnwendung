@@ -1,9 +1,9 @@
 <div class="container">
   <div class="left-container">
     <img *ngIf="!isMainPage()" src="../../assets/feedback.png" alt="Feedback Application Image" class="center-image">
-    <div class="text-below-image">
-      <span>Anwendung</span>
-      <span>Feedback</span>
+    <div  class="text-below-image">
+      <p class="first-line" *ngIf="!isMainPage()">KI-unterstützte</p>
+      <p class="second-line" *ngIf="!isMainPage()">Feedback Anwendung</p>
     </div>
   </div>
   <div class="button-container">

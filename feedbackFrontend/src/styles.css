@@ -3,7 +3,7 @@ html, body {
   margin: 0;
   padding: 0;
  overflow: auto;
-  background-color: #a99e8f;
+  background-color: #EBEEEF;
 }
 
 .full-screen-container {
@@ -20,3 +20,4 @@ router-outlet {
   flex-grow: 1;
   overflow: auto;
 }
+

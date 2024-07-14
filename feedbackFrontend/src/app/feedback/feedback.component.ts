@@ -18,6 +18,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {FeedbackData} from "../model/FeedbackData";
 import {FeedbackDialogComponent} from "../feedback-dialog/feedback-dialog.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-feedback',
@@ -50,6 +51,7 @@ export class FeedbackComponent implements OnInit {
   aiOptions = AI.getAIOptions();
   aiOption: string = '';
   check!: boolean;
+  create!: boolean;
   isLoading: boolean = false;
 
   aiInteraction: AiInteraction = new AiInteraction();
@@ -61,18 +63,37 @@ export class FeedbackComponent implements OnInit {
   constructor(
     private feedbackService: FeedbackService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
     this.check = false;
-
+    this.create = false;
   }
 
+  createText(feedback: AiInteraction){
+    this.isLoading = true;
+    this.feedbackService.aiCreateFeedback(feedback).subscribe({
+      next: (data: AiInteraction) => {
+        this.aiInteraction.feedback = data.feedback;
+        this.aiInteraction.aiGenerated = data.aiGenerated;
+        this.create = true;
+        this.showSnackBar('Feedback created successfully!');
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.showSnackBar('Failed to create feedback: ' + err.message);
+      }
+    });
+  }
   checkText(feedback: AiInteraction) {
     this.isLoading = true;
-      this.feedbackService.checkFeedback(feedback).subscribe({
+      this.feedbackService.aiCheckFeedback(feedback).subscribe({
         next: (data: AiInteraction) => {
           this.aiInteraction.feedback = data.feedback;
           this.aiInteraction.aiGenerated = data.aiGenerated;
@@ -108,6 +129,7 @@ export class FeedbackComponent implements OnInit {
         this.feedbackService.createFeedback(this.feedback).subscribe({
           next: () => {
             this.showSnackBar('Feedback created successfully!');
+            this.router.navigate(['/feedback-list']);
           },
           error: (err) => {
             this.showSnackBar('Failed to create feedback: ' + err.message);

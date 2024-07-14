@@ -19,15 +19,26 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    @GetMapping("/feedbacks")
+    @GetMapping("feedbacks")
     public ResponseEntity<List<FeedbackEntity>> getAllFeedback() {
         return ResponseEntity.ok(feedbackService.getAllFeedback());
+
+    }
+
+    @GetMapping("feedbacks/{role}")
+    public ResponseEntity<List<FeedbackEntity>> getByReceiver(@PathVariable String role) {
+        return ResponseEntity.ok(feedbackService.getByReceiver(role));
 
     }
 
     @PostMapping("create")
     public ResponseEntity<FeedbackEntity> checkFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         return new ResponseEntity<>(feedbackService.create(feedbackDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("{id}")
+    public ResponseEntity<FeedbackEntity> changeStatus(@PathVariable String id) {
+        return new ResponseEntity<>(feedbackService.changeStatus(id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

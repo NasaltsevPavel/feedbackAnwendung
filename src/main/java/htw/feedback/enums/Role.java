@@ -6,6 +6,8 @@ public enum Role {
     DEVELOPER,
     PRODUCT_OWNER,
     SCRUM_MASTER,
+    WORKING_STUDENT,
+    TRAINEE,
     OFFICE,
     COMPANY
 
