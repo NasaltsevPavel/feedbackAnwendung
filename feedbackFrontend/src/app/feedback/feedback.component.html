@@ -1,11 +1,11 @@
 <div class="center-container">
   <mat-card class="form-card">
     <mat-card-content>
-      <mat-form-field class="full-width">
-        <mat-label>Your Role</mat-label>
+      <mat-form-field class="full-width" >
+        <mat-label>Wähle deine Rolle aus</mat-label>
         <mat-select
           [(ngModel)]="feedback.sender"
-          placeholder="Your Role" required>
+          placeholder="Wähle deine Rolle aus" required>
           <mat-option *ngFor="let option of roleOptionsFrom"
                       [value]="option[0]">
             {{ option[1] }}
@@ -14,10 +14,10 @@
       </mat-form-field>
 
       <mat-form-field *ngIf="feedback.sender!= null" class="full-width">
-        <mat-label>Receiver Role</mat-label>
+        <mat-label>Wähle einen Empfänger aus</mat-label>
         <mat-select
           [(ngModel)]="feedback.receiver"
-          placeholder="Receiver Role" required>
+          placeholder="Wähle einen Empfänger aus" required>
           <mat-option *ngFor="let option of roleOptionsTo"
                       [value]="option[0]">
             {{ option[1] }}
@@ -26,10 +26,10 @@
       </mat-form-field>
 
     <mat-form-field *ngIf="feedback.receiver!= null" class="full-width">
-      <mat-label>AI Options</mat-label>
+      <mat-label>Wähle eine Option aus</mat-label>
       <mat-select
         [(ngModel)]="aiOption"
-        placeholder="AI Options" required>
+        placeholder="Wähle eine Option aus" required>
         <mat-option *ngFor="let option of aiOptions"
                     [value]="option[0]">
           {{ option[1] }}
@@ -45,7 +45,7 @@
 
     <div class="info-message" *ngIf=" aiOption === AI.CREATE">
       <div style="margin-right: 10px">  <mat-icon>info</mat-icon></div>
-      <span class="info-text">This is an CREATE informational message.</span>
+      <span class="info-text"> Schreiben Sie die Stichwörter und klicken Sie dann auf 'Erstellen'. Die KI generiert ein Feedback basierend auf den Stichwörtern.</span>
     </div>
 
     <div class="info-message" *ngIf=" aiInteraction.aiGenerated && check">
@@ -70,12 +70,12 @@
         </textarea>
       <mat-hint align="end">{{ hinweistext.value.length }} / 1000</mat-hint>
       <mat-error *ngIf="hinweistext.value.length<100">
-        Hinweistext must be at least 100 characters long.
+        Der Text muss mindestens 100 Zeichen lang sein.
       </mat-error>
     </mat-form-field>
 
     <mat-form-field *ngIf="aiOption === AI.CREATE " style="margin: 16px">
-      <mat-label>Keywords</mat-label>
+      <mat-label>Stichwörter</mat-label>
       <textarea  #hinweistext
                  [(ngModel)]="aiInteraction.feedback"
                  maxlength="1000"
@@ -85,14 +85,14 @@
         </textarea>
       <mat-hint align="end">{{ hinweistext.value.length }} / 1000</mat-hint>
       <mat-error *ngIf="hinweistext.value.length<50">
-        Hinweistext must be at least 50 characters long.
+        Der Text muss mindestens 40 Zeichen lang sein.
       </mat-error>
     </mat-form-field>
 
     <div class="button-container">
-      <button *ngIf="aiInteraction.feedback.length> 100 && !check && aiOption != AI.CREATE"  mat-raised-button (click)="checkText(aiInteraction)"  color="primary">Check</button>
-      <button *ngIf="aiInteraction.feedback.length> 50 && !create && aiOption != AI.CHECK"  mat-raised-button (click)="createText(aiInteraction)"  color="primary">Create</button>
-      <button *ngIf="check || create" mat-raised-button (click)="createFeedback(aiInteraction)" color="primary">Send</button>
+      <button *ngIf="aiInteraction.feedback.length> 100 && !check && aiOption != AI.CREATE"  mat-raised-button (click)="checkText(aiInteraction)"  color="primary">Überprüfen</button>
+      <button *ngIf="aiInteraction.feedback.length> 50 && !create && aiOption != AI.CHECK"  mat-raised-button (click)="createText(aiInteraction)"  color="primary">Erstellen</button>
+      <button *ngIf="check || create" mat-raised-button (click)="createFeedback(aiInteraction)" color="primary">Absenden</button>
     </div>
   </mat-card>
 </div>

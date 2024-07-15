@@ -1,10 +1,36 @@
-<!-- feedback-list.component.html -->
-<div *ngIf="feedbacks.length > 0; else noFeedback">
-  <ul>
-    <li *ngFor="let feedback of feedbacks">
-      {{ feedback.text }}
-    </li>
-  </ul>
+<div class="center-container">
+  <mat-card class="form-card">
+    <mat-form-field class="filter-form-field">
+      <mat-label>Filter Feedbacks</mat-label>
+      <mat-select [(value)]="selectedFilter">
+        <mat-option *ngFor="let filter of filters" [value]="filter[0]">
+          {{ filter[1] }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="filteredFeedbacks.length > 0; else noFeedback">
+      <div *ngFor="let feedback of filteredFeedbacks" [ngClass]="{'inactive-feedback': !feedback.active}" class="feedback-card">
+        <mat-card style="background-color: #D9D9D9;   border-radius: 12px; ">
+          <mat-card-content class="feedback-card-content">
+            <div class="feedback-section-left">
+             Empfänger: {{ roleToString(feedback.receiver) }}
+              <p>Absender: {{ roleToString(feedback.sender) }}</p>
+              <p *ngIf="feedback.meeting">Ein persönliches Treffen ist erwünscht.</p>
+              <p *ngIf="!feedback.meeting">Ein persönliches Treffen ist nicht erwünscht.</p>
+            </div>
+            <div class="feedback-section-center">
+              {{ feedback.text }}
+            </div>
+            <div class="feedback-section-right">
+              <mat-checkbox class="top-right-checkbox" color="primary" [(ngModel)]="feedback.active" (change)=changeStatus(feedback.id)></mat-checkbox>
+              <mat-icon *ngIf="!feedback.active" class="bottom-right-icon" (click)="deleteFeedback(feedback.id)" style="cursor: pointer" >delete</mat-icon>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card>
 </div>
 <ng-template #noFeedback>
   <p>No feedback available.</p>

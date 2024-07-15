@@ -7,6 +7,7 @@ export enum Role {
   TRAINEE = 'TRAINEE',
   OFFICE = 'OFFICE',
   COMPANY = 'COMPANY',
+  ANONYM = 'ANONYM'
 }
 
 export namespace Role {
@@ -29,6 +30,8 @@ export namespace Role {
         return 'Büro';
       case Role.COMPANY:
         return 'Unternehmen';
+      case Role.ANONYM:
+        return 'Anonym';
 
     }
   }

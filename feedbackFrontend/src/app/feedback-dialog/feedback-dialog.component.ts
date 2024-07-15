@@ -2,16 +2,17 @@ import {Component, Inject} from '@angular/core';
 import {FeedbackData} from "../model/FeedbackData";
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
+  MatDialogActions, MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-feedback-dialog',
@@ -25,7 +26,10 @@ import {FormsModule} from "@angular/forms";
     MatButton,
     MatCheckbox,
     FormsModule,
-    MatLabel
+    MatLabel,
+    MatIconButton,
+    MatIcon,
+    MatDialogClose
   ],
   templateUrl: './feedback-dialog.component.html',
   styleUrl: './feedback-dialog.component.css'

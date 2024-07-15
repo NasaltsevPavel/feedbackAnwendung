@@ -116,12 +116,15 @@ export class FeedbackComponent implements OnInit {
   }
   createFeedback(aiInteraction: AiInteraction){
     const dialogRef = this.dialog.open(FeedbackDialogComponent, {
-      width: '250px',
+      width: '520px',
       data: this.feedbackData
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        if(result.anonym){
+          this.feedback.sender = Role.ANONYM;
+        }
         this.feedback.text = aiInteraction.feedback;
         this.feedback.anonym = result.anonym;
         this.feedback.meeting = result.meeting;

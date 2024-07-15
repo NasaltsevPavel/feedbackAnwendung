@@ -9,7 +9,8 @@ public enum Role {
     WORKING_STUDENT,
     TRAINEE,
     OFFICE,
-    COMPANY
+    COMPANY,
+    ANONYM
 
 
 }
