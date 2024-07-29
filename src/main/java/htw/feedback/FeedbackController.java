@@ -25,14 +25,8 @@ public class FeedbackController {
 
     }
 
-    @GetMapping("feedbacks/{role}")
-    public ResponseEntity<List<FeedbackEntity>> getByReceiver(@PathVariable String role) {
-        return ResponseEntity.ok(feedbackService.getByReceiver(role));
-
-    }
-
     @PostMapping("create")
-    public ResponseEntity<FeedbackEntity> checkFeedback(@RequestBody FeedbackDTO feedbackDTO) {
+    public ResponseEntity<FeedbackEntity> createFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         return new ResponseEntity<>(feedbackService.create(feedbackDTO), HttpStatus.CREATED);
     }
 

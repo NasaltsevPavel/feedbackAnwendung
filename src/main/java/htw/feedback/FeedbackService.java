@@ -54,10 +54,4 @@ public class FeedbackService {
             throw new EntityNotFoundException("FeedbackEntity mit ID " + id + " wurde nicht gefunden");
         }
     }
-
-    public List<FeedbackEntity> getByReceiver(String role){
-        return feedbackRepository.findByReceiver(role);
-    }
-
-
 }

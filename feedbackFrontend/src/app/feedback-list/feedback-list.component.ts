@@ -61,7 +61,7 @@ export class FeedbackListComponent {
   deleteFeedback(id: string){
     this.feedbackService.deleteFeedback(id).subscribe({
       next: () => {
-        this.showSnackBar('Deleted');
+        this.showSnackBar('Das Feedback wurde gelöscht');
         this.ngOnInit();
       },
       error: (err) => {
@@ -103,7 +103,7 @@ export class FeedbackListComponent {
   changeStatus(id: string){
     this.feedbackService.changeStatus(id).subscribe({
       next: () => {
-        this.showSnackBar('Changed');
+        this.showSnackBar('Status wurde geändert');
       },
       error: (err) => {
         this.showSnackBar('Failed to change ' + err.message);
@@ -112,7 +112,7 @@ export class FeedbackListComponent {
   }
 
   private showSnackBar(message: string): void {
-    this.snackBar.open(message, 'Close', {
+    this.snackBar.open(message, 'Schließen', {
       duration: 4000,
     });
   }

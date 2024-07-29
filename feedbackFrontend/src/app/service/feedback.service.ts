@@ -40,7 +40,4 @@ export class FeedbackService{
     return this.http.get<Feedback[]>(this.pathPrefix + 'feedback/feedbacks');
   }
 
-  public getByReceiver(role: String): Observable<Feedback[]> {
-    return this.http.get<Feedback[]>(this.pathPrefix + 'feedback/feedbacks/'+role);
-  }
 }

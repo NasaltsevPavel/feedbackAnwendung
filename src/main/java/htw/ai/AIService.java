@@ -57,6 +57,7 @@ public class AIService {
         String userPrompt = prompt.replace("\n", "");
 
         System.out.println(userPrompt);
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost post = new HttpPost(API_URL);
             post.setHeader("Content-Type", "application/json");
@@ -88,5 +89,6 @@ public class AIService {
                 return "Keine Antwort erhalten oder die Antwort war nicht im erwarteten Format.";
             });
         }
+
     }
 }
