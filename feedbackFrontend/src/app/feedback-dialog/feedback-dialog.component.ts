@@ -1,7 +1,6 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {FeedbackData} from "../model/FeedbackData";
 import {
-  MAT_DIALOG_DATA,
   MatDialogActions, MatDialogClose,
   MatDialogContent,
   MatDialogRef,
@@ -41,8 +40,6 @@ export class FeedbackDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<FeedbackDialogComponent>) {
   }
-
-
 
   onNoClick(): void {
     this.dialogRef.close();
